@@ -1,0 +1,97 @@
+@if (!hideFilters()) {
+<div class="filters" testFilters crmsUiCollapse>
+  <test-crms-acts-filters [tableId]="tableId" [internalOwners]="internalOwners()"></test-crms-acts-filters>
+</div>
+}
+
+<test-virtual-table
+  testTable
+  testVirtualTableAsyncLoadData
+  testVirtualRowDblClickEmitter
+  [displayedColumns]="tableId | testTableDisplayedColumns : defaultColumns | async"
+  [columnSettings]="tableId | testTableSettings | async"
+  (testDblClickToRow)="rowDbClick($event)"
+  class="no-border">
+  <test-virtual-table-caption testVirtualTableNoData>Нет актов</test-virtual-table-caption>
+
+  <ng-container [testVirtualColumnDef]="tableCellType.SELECTION" [staticColumn]="true"></ng-container>
+
+  <ng-container [testVirtualColumnDef]="tableColumnKey.NUMBER">
+    <div *testVirtualCellHeaderDef testVirtualCellHeaderDefSortByName="number" class="text-title">
+      {{ (tableId | testTableSettingsByCol : tableColumnKey.NUMBER | async)?.name }}
+    </div>
+    <div *testVirtualCellDef="let data" class="text">{{ data.number }}</div>
+  </ng-container>
+
+  <ng-container [testVirtualColumnDef]="tableColumnKey.NAME">
+    <div *testVirtualCellHeaderDef testVirtualCellHeaderDefSortByName="name" class="text-title">
+      {{ (tableId | testTableSettingsByCol : tableColumnKey.NAME | async)?.name }}
+    </div>
+    <div *testVirtualCellDef="let data" class="text" style="width: 100%">
+      <div>{{ data.name }}</div>
+      <div>
+        <test-crms-badge background="greyscale-700" text="greyscale-0" size="small" title="ID: {{ data.id }}">
+          ID: {{ data.id }}
+        </test-crms-badge>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container [testVirtualColumnDef]="tableColumnKey.LICENSEE">
+    <div *testVirtualCellHeaderDef testVirtualCellHeaderDefSortByName="licensee" class="text-title">
+      {{ (tableId | testTableSettingsByCol : tableColumnKey.LICENSEE | async)?.name }}
+    </div>
+    <div *testVirtualCellDef="let data" class="text">
+      {{ data.licensees | crmsUiArrayToText : 'name' }}
+    </div>
+  </ng-container>
+
+  <ng-container [testVirtualColumnDef]="tableColumnKey.MANUFACTURER">
+    <div *testVirtualCellHeaderDef class="text-title">
+      {{ (tableId | testTableSettingsByCol : tableColumnKey.MANUFACTURER | async)?.name }}
+    </div>
+    <div *testVirtualCellDef="let data" class="text">
+      {{ data.owners | crmsUiArrayToText : 'name' }}
+    </div>
+  </ng-container>
+
+  <ng-container [testVirtualColumnDef]="tableColumnKey.ENTRY_DATE">
+    <div *testVirtualCellHeaderDef testVirtualCellHeaderDefSortByName="entryDate" class="text-title">
+      {{ (tableId | testTableSettingsByCol : tableColumnKey.ENTRY_DATE | async)?.name }}
+    </div>
+    <div *testVirtualCellDef="let data" class="text">
+      {{ data.entryDate | date : 'shortDate' }}
+    </div>
+  </ng-container>
+
+  <ng-container [testVirtualColumnDef]="tableColumnKey.IAR_SHARE_PERCENT">
+    <div *testVirtualCellHeaderDef testVirtualCellHeaderDefSortByName="iarSharePercent" class="text-title">
+      {{ (tableId | testTableSettingsByCol : tableColumnKey.IAR_SHARE_PERCENT | async)?.name }}
+    </div>
+    <div *testVirtualCellDef="let data" class="text">
+      {{ data.iarSharePercent }}
+    </div>
+  </ng-container>
+
+  <ng-container [testVirtualColumnDef]="tableColumnKey.MANAGING_OWNER_NAME">
+    <div *testVirtualCellHeaderDef testVirtualCellHeaderDefSortByName="managingOwnerName" class="text-title">
+      {{ (tableId | testTableSettingsByCol : tableColumnKey.MANAGING_OWNER_NAME | async)?.name }}
+    </div>
+    <div *testVirtualCellDef="let data" class="text">
+      {{ data.managingOwner?.name }}
+    </div>
+  </ng-container>
+
+  <ng-container [testVirtualColumnDef]="tableCellType.SETTINGS" [staticColumn]="true">
+    <div *testVirtualCellHeaderDef class="text-title">
+      <test-cms-open-table-settings-button [tableId]="tableId"></test-cms-open-table-settings-button>
+    </div>
+    <div *testVirtualCellDef="let data" class="text"></div>
+  </ng-container>
+
+  <test-table-paginator [limitList]="[10, 20, 30, 50, 100]"></test-table-paginator>
+
+  <div testVirtualTableLoader class="text">
+    <test-ui-progress-spinner loadingColor="test" [size]="70" [borderSize]="5"></test-ui-progress-spinner>
+  </div>
+</test-virtual-table>

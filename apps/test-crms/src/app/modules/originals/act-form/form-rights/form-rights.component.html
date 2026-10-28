@@ -1,0 +1,46 @@
+@let f = form();
+
+<div class="crms-container form-tab-container" [formGroup]="f">
+  <div class="crms-row">
+    <div class="col">
+      @let sublicenseRights = sublicenseRights$ | async;
+
+      <test-ui-form-field>
+        <input
+          testInput
+          formControlName="rightToSublicensing"
+          [testInputAutocomplete]="autocompleteRightToSublicensing"
+          [testInputAutocompleteStringify]="createStringifyDictionaryWrapper('sublicenseRights', sublicenseRights)"
+          readonly />
+        <test-ui-label>Право сублицензирования</test-ui-label>
+        <test-ui-icon testSuffix [testFill]="true" [fontSize]="20">arrow_drop_down</test-ui-icon>
+        <test-ui-select #autocompleteRightToSublicensing>
+          @for (item of sublicenseRights; track item.code) {
+          <test-ui-option testOption [value]="item.code">
+            <h3 title style="margin: 0">{{ item.name }}</h3>
+          </test-ui-option>
+          }
+        </test-ui-select>
+      </test-ui-form-field>
+    </div>
+
+    <div class="col">
+      @let thirdPartiesControl = f.controls.rightToSublicensingThirdParties;
+
+      <test-ui-form-field>
+        <input testInput formControlName="rightToSublicensingThirdParties" />
+        <test-ui-label>Третьи лица</test-ui-label>
+        <div testSuffix [style.display]="'flex'">
+          <test-ui-copy-to-clipboard [text]="thirdPartiesControl.value"></test-ui-copy-to-clipboard>
+          @if (thirdPartiesControl.enabled) {
+          <test-ui-icon [testFill]="true" [fontSize]="20" (click)="clearControl(thirdPartiesControl)">close</test-ui-icon>
+          }
+        </div>
+      </test-ui-form-field>
+    </div>
+  </div>
+
+  <div class="rights">
+    <test-crms-act-contract-units-rights [owners]="owners()"></test-crms-act-contract-units-rights>
+  </div>
+</div>

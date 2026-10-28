@@ -1,0 +1,45 @@
+@let tableIdValue = tableId();
+
+<test-filter-container
+  [value]="value"
+  [visibleFilters]="displayedFilters$ | async"
+  testFiltersToQueryParams
+  testFilterEntryForm
+  testFilterNavigationParamsForm>
+  <test-search-input-filter
+    [label]="(tableIdValue | testTableSettingsByCol : TABLE_COLUMN_KEY.NAME | async)?.name"
+    *testFilterEntry="FILTERS.NAME"
+    [testFilterNavigationParam]="FILTERS.NAME"></test-search-input-filter>
+
+  <test-search-input-filter
+    [label]="(tableIdValue | testTableSettingsByCol : TABLE_COLUMN_KEY.MANUFACTURER | async)?.name"
+    *testFilterEntry="FILTERS.OWNER_NAME"
+    [testFilterNavigationParam]="FILTERS.OWNER_NAME"></test-search-input-filter>
+
+  <test-search-input-filter
+    [label]="(tableIdValue | testTableSettingsByCol : TABLE_COLUMN_KEY.IAR_SHARE_PERCENT | async)?.name"
+    *testFilterEntry="FILTERS.IAR_SHARE_PERCENT"
+    [testFilterNavigationParam]="FILTERS.IAR_SHARE_PERCENT"></test-search-input-filter>
+
+  <test-search-input-filter
+    [label]="(tableIdValue | testTableSettingsByCol : TABLE_COLUMN_KEY.MANAGING_OWNER_NAME | async)?.name"
+    *testFilterEntry="FILTERS.MANAGING_OWNER_NAME"
+    [testFilterNavigationParam]="FILTERS.MANAGING_OWNER_NAME"></test-search-input-filter>
+
+  <test-multiple-checkbox-filter
+    *testFilterEntry="FILTERS.LICENSEE_ID"
+    [title]="(tableIdValue | testTableSettingsByCol : TABLE_COLUMN_KEY.LICENSEE | async)?.name"
+    [testFilterNavigationParam]="FILTERS.LICENSEE_ID"
+    [items]="internalOwners()"
+    valueKey="id">
+    <ng-container *testFilterTemplateOption="let data">
+      {{ data.name }}
+    </ng-container>
+    <test-filters-actions></test-filters-actions>
+  </test-multiple-checkbox-filter>
+
+  <test-date-range-picker-filter
+    *testFilterEntry="FILTERS.ENTRY_DATE"
+    [label]="(tableIdValue | testTableSettingsByCol : TABLE_COLUMN_KEY.ENTRY_DATE | async)?.name"
+    [testFilterNavigationParam]="FILTERS.ENTRY_DATE"></test-date-range-picker-filter>
+</test-filter-container>

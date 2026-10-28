@@ -1,0 +1,117 @@
+<test-page-wrapper testEnableForPermission="test_crms_originals_acts_edit" class="crms-page-wrapper">
+  <test-crms-form-header
+    testHeader
+    [breadcrumbs]="breadcrumbs$ | async"
+    [tags]="infoTags$ | async"
+    [loaded]="!!form"
+    (closeClick)="close()"></test-crms-form-header>
+
+  @if (form) {
+  <div class="tab-container">
+    <test-ui-tabs [scrolledContent]="true" [testChipsSecondary]="true">
+      <div testTab>
+        <ng-container *testTabTitle>
+          @if (form.controls.common.touched) { @if (form.controls.common.valid) {
+          <div class="icon-wrapper text-color-accent-positive">
+            <test-ui-icon matTooltip="Поля заполнены">done</test-ui-icon>
+          </div>
+          } @if (form.controls.common.invalid) {
+          <div class="icon-wrapper text-color-accent-warning">
+            <test-ui-icon matTooltip="Проверьте поля">warning</test-ui-icon>
+          </div>
+          } }
+          <div>Основное</div>
+        </ng-container>
+
+        <ng-container *testTabContent>
+          <test-crms-act-form-common
+            [actId]="actId"
+            [form]="form.controls.common"
+            [owners]="owners()"
+            [internalOwners]="internalOwners()"></test-crms-act-form-common>
+        </ng-container>
+      </div>
+
+      @if (actId) {
+      <div testTab>
+        <ng-container *testTabTitle>
+          @if (form.controls.rights.touched) { @if (form.controls.rights.valid) {
+          <div class="icon-wrapper text-color-accent-positive">
+            <test-ui-icon matTooltip="Поля заполнены">done</test-ui-icon>
+          </div>
+          } @if (form.controls.rights.invalid) {
+          <div class="icon-wrapper text-color-accent-warning">
+            <test-ui-icon matTooltip="Проверьте поля">warning</test-ui-icon>
+          </div>
+          } }
+          <div>Права и ограничения</div>
+        </ng-container>
+
+        <ng-container *testTabContent>
+          <test-crms-act-form-rights
+            [actId]="actId"
+            [form]="form.controls.rights"
+            [owners]="owners()"></test-crms-act-form-rights>
+        </ng-container>
+      </div>
+
+      <div testTab>
+        <ng-container *testTabTitle>
+          <div>Обязательства</div>
+        </ng-container>
+
+        <ng-container *testTabContent>
+          <test-crms-act-form-obligations></test-crms-act-form-obligations>
+        </ng-container>
+      </div>
+
+      <div testTab>
+        <ng-container *testTabTitle>
+          <div>Роялти от продюсера</div>
+        </ng-container>
+
+        <ng-container *testTabContent>
+          <test-crms-act-form-royalties></test-crms-act-form-royalties>
+        </ng-container>
+      </div>
+      }
+
+      <div testTab>
+        <ng-container *testTabTitle>
+          @if (form.controls.clarifications.touched) { @if (form.controls.clarifications.valid) {
+          <div class="icon-wrapper text-color-accent-positive">
+            <test-ui-icon matTooltip="Поля заполнены">done</test-ui-icon>
+          </div>
+          } @if (form.controls.clarifications.invalid) {
+          <div class="icon-wrapper text-color-accent-warning">
+            <test-ui-icon matTooltip="Проверьте поля">warning</test-ui-icon>
+          </div>
+          } }
+          <div>Доход/Расход</div>
+        </ng-container>
+
+        <ng-container *testTabContent>
+          <test-crms-act-form-clarifications [form]="form.controls.clarifications"></test-crms-act-form-clarifications>
+        </ng-container>
+      </div>
+    </test-ui-tabs>
+  </div>
+  } @else {
+  <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center">
+    <test-ui-progress-spinner [size]="60" class="progress-spinner-product-connection"></test-ui-progress-spinner>
+  </div>
+  }
+
+  <test-footer testFooter [static]="true">
+    <p testLeftFooterPart>
+      <ng-container></ng-container>
+    </p>
+    <p testRightFooterPart *testShowForPermission="'test_crms_originals_acts_edit'">
+      <ng-container>
+        <button testButton class="test-primary" (click)="save()" [disabled]="form?.invalid || form?.disabled">
+          Сохранить
+        </button>
+      </ng-container>
+    </p>
+  </test-footer>
+</test-page-wrapper>

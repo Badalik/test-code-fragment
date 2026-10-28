@@ -1,0 +1,20 @@
+@use 'libs/assets/src/lib/styles/fonts-setting';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.filters {
+  margin-right: -40px;
+  margin-left: -40px;
+}
+
+.text {
+  @include fonts-setting.set-font(fonts-setting.$paragraph-p4-regular-comp);
+}
+
+.text-title {
+  @include fonts-setting.set-font(fonts-setting.$paragraph-p4-medium-comp);
+}

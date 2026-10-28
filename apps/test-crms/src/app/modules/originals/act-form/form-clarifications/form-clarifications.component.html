@@ -1,0 +1,53 @@
+<div class="crms-container form-tab-container" [formGroup]="form">
+  <div class="crms-row">
+    <div class="col">
+      <test-ui-form-field
+        [crmsUiBigTextFormFieldTrigger]="form.controls.clarificationProfitable"
+        [crmsUiBigTextTriggerBaseLabel]="clarificationProfitable.innerText">
+        <test-ui-label #clarificationProfitable>Доход</test-ui-label>
+        <textarea
+          testInput
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5"
+          formControlName="clarificationProfitable"></textarea>
+        <div testSuffix [style.display]="'flex'">
+          <test-ui-copy-to-clipboard [text]="form.controls.clarificationProfitable.value"></test-ui-copy-to-clipboard>
+          <test-ui-icon
+            *ngIf="form.controls.clarificationProfitable.enabled"
+            [testFill]="true"
+            [fontSize]="20"
+            (click)="clear('clarificationProfitable')">
+            close
+          </test-ui-icon>
+        </div>
+      </test-ui-form-field>
+    </div>
+
+    <div class="col">
+      <test-ui-form-field
+        [crmsUiBigTextFormFieldTrigger]="form.controls.clarificationExpenses"
+        [crmsUiBigTextTriggerBaseLabel]="clarificationExpenses.innerText">
+        <test-ui-label #clarificationExpenses>Расход</test-ui-label>
+        <textarea
+          testInput
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5"
+          formControlName="clarificationExpenses"></textarea>
+        <div testSuffix [style.display]="'flex'">
+          <test-ui-copy-to-clipboard [text]="form.controls.clarificationExpenses.value"></test-ui-copy-to-clipboard>
+          <test-ui-icon
+            *ngIf="form.controls.clarificationExpenses.enabled"
+            [testFill]="true"
+            [fontSize]="20"
+            (click)="clear('clarificationExpenses')">
+            close
+          </test-ui-icon>
+        </div>
+      </test-ui-form-field>
+    </div>
+  </div>
+</div>

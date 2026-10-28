@@ -1,0 +1,121 @@
+@let f = form();
+
+<div class="crms-container form-tab-container" [formGroup]="f">
+  <div class="crms-row">
+    <div class="col-3">
+      @let nameControl = f.controls.name;
+
+      <test-ui-form-field>
+        <input testInput formControlName="name" />
+        <test-ui-label>Наименование договора</test-ui-label>
+        <div testSuffix [style.display]="'flex'">
+          <test-ui-copy-to-clipboard [text]="nameControl.value"></test-ui-copy-to-clipboard>
+          @if (nameControl.enabled) {
+          <test-ui-icon [testFill]="true" [fontSize]="20" (click)="clear('name')">close</test-ui-icon>
+          }
+        </div>
+      </test-ui-form-field>
+    </div>
+
+    <div class="col-3">
+      @let anotherNameControl = f.controls.name;
+
+      <test-ui-form-field>
+        <input testInput formControlName="anotherName" />
+        <test-ui-label>Дополнительное наименование</test-ui-label>
+        <div testSuffix [style.display]="'flex'">
+          <test-ui-copy-to-clipboard [text]="anotherNameControl.value"></test-ui-copy-to-clipboard>
+          @if (anotherNameControl.enabled) {
+          <test-ui-icon [testFill]="true" [fontSize]="20" (click)="clear('anotherName')">close</test-ui-icon>
+          }
+        </div>
+      </test-ui-form-field>
+    </div>
+
+    <div class="col-2">
+      @let numberControl = f.controls.name;
+
+      <test-ui-form-field>
+        <input testInput formControlName="number" />
+        <test-ui-label>Акт, №</test-ui-label>
+        <div testSuffix [style.display]="'flex'">
+          <test-ui-copy-to-clipboard [text]="numberControl.value"></test-ui-copy-to-clipboard>
+          @if (numberControl.enabled) {
+          <test-ui-icon [testFill]="true" [fontSize]="20" (click)="clear('number')">close</test-ui-icon>
+          }
+        </div>
+      </test-ui-form-field>
+    </div>
+
+    <div class="col-4">
+      <test-ui-form-field>
+        <test-ui-label>Статус</test-ui-label>
+        <crms-ui-document-status-buttons
+          formControlName="contractStatus"
+          [statusesMap]="statusesMap"
+          [statuses]="contractStatuses$ | async"></crms-ui-document-status-buttons>
+      </test-ui-form-field>
+    </div>
+  </div>
+
+  <div class="crms-row">
+    <div class="col">
+      <crms-ui-dictionary-multi-select
+        [dictionary]="internalOwners()"
+        valueKey="id"
+        label="Краткое наименование правообладателя"
+        formControlName="licenseeIds"></crms-ui-dictionary-multi-select>
+    </div>
+
+    <div class="col">
+      <crms-ui-dictionary-multi-select
+        [dictionary]="owners()"
+        valueKey="id"
+        label="Краткое наименование производителя"
+        formControlName="ownerIds"></crms-ui-dictionary-multi-select>
+    </div>
+  </div>
+
+  <div class="crms-row align-items-center">
+    <div class="col">
+      <test-date-time-range
+        crmsUiDateTimeRangeDateFormat
+        [calendarMode]="calendarMode"
+        [hideHeader]="true"
+        [hideTime]="true"
+        formControlName="entryDate">
+        <ng-container testCalendarLabel>Дата ввода</ng-container>
+      </test-date-time-range>
+    </div>
+
+    <div class="col">
+      <test-ui-checkbox formControlName="isTbaEntryDate">TBA</test-ui-checkbox>
+    </div>
+  </div>
+
+  <div class="crms-row">
+    <div class="col">
+      <test-ui-form-field>
+        <test-ui-label>Доля участия в создании АВП, %</test-ui-label>
+        <input testInput formControlName="iarSharePercent" type="number" />
+        <div testSuffix>
+          <test-ui-copy-to-clipboard [text]="f.controls.iarSharePercent.value?.toString()"></test-ui-copy-to-clipboard>
+        </div>
+      </test-ui-form-field>
+    </div>
+
+    <div class="col">
+      <crms-ui-dictionary-select
+        [dictionary]="owners()"
+        label="Управление правами"
+        valueKey="id"
+        formControlName="managingOwnerId"></crms-ui-dictionary-select>
+    </div>
+  </div>
+
+  @let actIdValue = actId(); @if (actIdValue) {
+  <div class="content-units">
+    <test-crms-act-contract-units [actId]="actIdValue"></test-crms-act-contract-units>
+  </div>
+  }
+</div>
